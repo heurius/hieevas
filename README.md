@@ -39,8 +39,8 @@ pip install "hieevas[gcp]"       # + Cloud Run / VM -> Cloud Trace, and reading 
 ```
 
 Until the first PyPI release, install from GitHub:
-`pip install "hieevas[live] @ git+https://github.com/sampath-6/hieevas"`.
-For development: `git clone https://github.com/sampath-6/hieevas && pip install -e "./hieevas[dev]"`.
+`pip install "hieevas[live] @ git+https://github.com/heurius/hieevas"`.
+For development: `git clone https://github.com/heurius/hieevas && pip install -e "./hieevas[dev]"`.
 
 ## 0. Live dashboards for any LangGraph app
 

@@ -37,11 +37,11 @@ dev = ["pytest>=8", "langchain-core>=0.3", "langgraph>=0.2", "opentelemetry-sdk>
 hieevas-dashboard = "hieevas.serve:main"
 
 [project.urls]
-Homepage = "https://github.com/sampath-6/hieevas"
-Repository = "https://github.com/sampath-6/hieevas"
-Issues = "https://github.com/sampath-6/hieevas/issues"
-Documentation = "https://github.com/sampath-6/hieevas/blob/main/METRICS.md"
-Changelog = "https://github.com/sampath-6/hieevas/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/heurius/hieevas"
+Repository = "https://github.com/heurius/hieevas"
+Issues = "https://github.com/heurius/hieevas/issues"
+Documentation = "https://github.com/heurius/hieevas/blob/main/METRICS.md"
+Changelog = "https://github.com/heurius/hieevas/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]
