@@ -32,12 +32,15 @@ final state). The same text appears under *What is this?* on each dashboard card
 ## Install
 
 ```bash
-pip install -e .                 # core, no dependencies
-pip install -e ".[langgraph]"    # + LangChain / LangGraph callback adapter
-pip install -e ".[live]"         # + live tracing of LangGraph apps (local mode, any OTLP collector)
-pip install -e ".[gcp]"          # + Cloud Run / VM -> Cloud Trace, and reading Cloud Trace (incl. Agent Engine)
-pip install -e ".[dev]"          # + tests
+pip install hieevas              # core, no dependencies
+pip install "hieevas[langgraph]" # + LangChain / LangGraph callback adapter
+pip install "hieevas[live]"      # + live tracing of LangGraph apps (local mode, any OTLP collector)
+pip install "hieevas[gcp]"       # + Cloud Run / VM -> Cloud Trace, and reading Cloud Trace (incl. Agent Engine)
 ```
+
+Until the first PyPI release, install from GitHub:
+`pip install "hieevas[live] @ git+https://github.com/sampath-6/hieevas"`.
+For development: `git clone https://github.com/sampath-6/hieevas && pip install -e "./hieevas[dev]"`.
 
 ## 0. Live dashboards for any LangGraph app
 

@@ -5,11 +5,10 @@ GitHub release is published. No API token is stored anywhere (PyPI Trusted Publi
 
 ## One-time setup
 
-1. Push this folder to a GitHub repository (e.g. `YOUR-USERNAME/hieevas`) and update the
-   `Homepage` URL and author in `pyproject.toml`.
+1. The code lives at https://github.com/sampath-6/hieevas (done).
 2. On PyPI, go to **Your account → Publishing → Add a new pending publisher** and enter:
    - PyPI project name: `hieevas`
-   - Owner: your GitHub user or organisation
+   - Owner: `sampath-6`
    - Repository name: `hieevas`
    - Workflow name: `publish.yml`
    - Environment name: `pypi`
