@@ -1,0 +1,6 @@
+# until hieevas is on PyPI, copy a built wheel here and use: ./hieevas-0.1.0-py3-none-any.whl[gcp]
+hieevas[gcp]
+langchain>=1.0
+langchain-google-vertexai>=2.0
+fastapi>=0.110
+uvicorn>=0.29
