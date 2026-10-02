@@ -4,7 +4,7 @@
 
 Please do **not** open a public issue for security problems. Report them privately through
 GitHub: **Security → Report a vulnerability** on https://github.com/heurius/hieevas, or by
-e-mail to sampathchari33@gmail.com with "hieevas security" in the subject.
+e-mail to heurius.tech@gmail.com with "hieevas security" in the subject.
 
 Include the version, a description, and steps to reproduce. You can expect an acknowledgement
 within a week. Fixes are released as a new patch version and noted in the changelog.
