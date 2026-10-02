@@ -25,7 +25,7 @@ self-contained HTML dashboard.
 | Transparency & governance | M23 rationale coverage · M24 rationale quality · M25 audit completeness · M26 approval triggers · M27 budget violations |
 
 When the data for a metric was not recorded, the metric returns *not available* with the reason,
-never a misleading zero. [METRICS.md](METRICS.md) explains every metric in plain language: what it
+never a misleading zero. [METRICS.md](https://github.com/heurius/hieevas/blob/main/METRICS.md) explains every metric in plain language: what it
 measures, how it is computed, and which part of a LangGraph run it reads (input, LLM call, tool call,
 final state). The same text appears under *What is this?* on each dashboard card.
 
@@ -79,7 +79,7 @@ condition (`C1` known answer, `C2` tool faults, `C3` injection, `C4` out-of-poli
 `hieevas.send_probes(...)`, for example on a schedule. For `C4` runs without an explicit
 flag, refusal is scored as *declined in words and no high-risk tool attempted*.
 
-Examples for each mode are in [`examples/`](examples/): `local_ollama.py`, `cloud_run/`,
+Examples for each mode are in [`examples/`](https://github.com/heurius/hieevas/tree/main/examples): `local_ollama.py`, `cloud_run/`,
 `vertex_agent_engine.py`, and a stand-alone dashboard container in `dashboard/`.
 
 ## 1. Any pipeline (framework-agnostic)
