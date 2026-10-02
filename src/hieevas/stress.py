@@ -13,6 +13,10 @@ The tag is read from the LangChain run config inside the tool, so this works whe
 tools run: locally, on Cloud Run and on Vertex AI Agent Engine. Faults and denials are
 returned as text (``ERROR: ...`` / ``ACTION DENIED ...``), which the model can react to and
 the span reader recognises.
+
+Production note: the approval gate applies to every request, not only probes, and its default
+``approval=deny_all`` blocks high-risk tools for real users too. In production pass a real
+approval function (e.g. one that asks a human) or ``approval=approve_all``.
 """
 from __future__ import annotations
 

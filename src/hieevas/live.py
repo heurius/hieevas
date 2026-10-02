@@ -76,11 +76,19 @@ def setup_tracing(exporter: str = "file", service_name: str = "agent", path: str
     else:
         raise ValueError(f"exporter must be one of {EXPORTERS}, not {exporter!r}")
 
-    provider = TracerProvider(resource=Resource.create({"service.name": service_name}),
-                              sampler=ParentBased(TraceIdRatioBased(sample_rate)))
+    current = trace.get_tracer_provider()
+    if isinstance(current, TracerProvider):
+        # The application already configured OpenTelemetry: join it rather than compete with it.
+        warnings.warn("OpenTelemetry is already configured in this process; hieevas adds its exporter to the "
+                      "existing tracer provider instead of replacing it (that provider's service name and "
+                      "sampling apply).", stacklevel=2)
+        provider = current
+    else:
+        provider = TracerProvider(resource=Resource.create({"service.name": service_name}),
+                                  sampler=ParentBased(TraceIdRatioBased(sample_rate)))
+        trace.set_tracer_provider(provider)
+        atexit.register(provider.shutdown)
     provider.add_span_processor(BatchSpanProcessor(span_exporter) if batch else SimpleSpanProcessor(span_exporter))
-    trace.set_tracer_provider(provider)
-    atexit.register(provider.shutdown)
     if instrument_langchain:
         try:
             from openinference.instrumentation.langchain import LangChainInstrumentor

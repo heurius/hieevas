@@ -10,11 +10,24 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
-authors = [{ name = "Sampathkumar Thiruvenkatachari", email = "sampathchari33@gmail.com" }]
-keywords = ["agentic-ai", "llm", "evaluation", "langgraph", "rag", "observability"]
+authors = [{ name = "Sampathkumar T.", email = "heurius.tech@gmail.com" }]
+keywords = ["agentic-ai", "ai-agents", "llm", "evaluation", "metrics", "langgraph", "langchain", "rag",
+            "opentelemetry", "observability", "ai-governance", "prompt-injection", "vertex-ai"]
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Testing",
+    "Topic :: System :: Monitoring",
+    "Typing :: Typed",
 ]
 dependencies = []
 
@@ -45,6 +58,9 @@ Changelog = "https://github.com/heurius/hieevas/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+hieevas = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
