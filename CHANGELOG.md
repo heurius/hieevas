@@ -28,6 +28,9 @@ First release.
 - Metric guide (`hieevas.metrics.guide`, `METRICS.md`): what each metric measures, how, from which
   part of the run, how to read it and what it needs; shown on the dashboard with a
   "How a run becomes metrics" panel.
+- Production safety: `init()` joins an application's existing OpenTelemetry provider (with a
+  warning) instead of replacing it; README "Using hieevas in production" and `SECURITY.md` cover the
+  approval-gate default, probe-only stress conditions and user data in traces.
 - Every metric value carries its calculation with counts (`MetricResult.detail`, e.g.
   "8 correct ÷ 8 scored runs"), shown in tiles, under each chart, in tooltips and in `report.json`;
   the run tile breaks runs down by condition.

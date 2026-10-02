@@ -155,3 +155,22 @@ def test_langgraph_metadata_reaches_spans():
     runs = proc.runs()
     assert len(runs) == 1
     assert (runs[0].task_id, runs[0].architecture, runs[0].reference) == ("T9", "A1", "Paris")
+
+
+def test_setup_tracing_joins_an_existing_provider(tmp_path):
+    """An app that already configured OpenTelemetry keeps its provider; hieevas adds its exporter."""
+    from opentelemetry import trace
+    from opentelemetry.sdk.trace import TracerProvider
+
+    from hieevas.live import FileSource, setup_tracing
+
+    app_provider = trace.get_tracer_provider()
+    if not isinstance(app_provider, TracerProvider):
+        app_provider = TracerProvider()
+        trace.set_tracer_provider(app_provider)
+    path = tmp_path / "spans.jsonl"
+    with pytest.warns(UserWarning, match="already configured"):
+        provider = setup_tracing("file", path=path, instrument_langchain=False, batch=False)
+    assert provider is app_provider
+    _traced_runs(trace.get_tracer("app"), 1)
+    assert len(FileSource(path).runs()) == 1

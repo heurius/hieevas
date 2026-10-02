@@ -82,6 +82,34 @@ flag, refusal is scored as *declined in words and no high-risk tool attempted*.
 Examples for each mode are in [`examples/`](https://github.com/heurius/hieevas/tree/main/examples): `local_ollama.py`, `cloud_run/`,
 `vertex_agent_engine.py`, and a stand-alone dashboard container in `dashboard/`.
 
+## Using hieevas in production
+
+hieevas is alpha software, provided "as is" under the MIT licence without warranty. Before
+running it next to real users, check these four points:
+
+1. **The approval gate blocks real actions by default.** `stress_tools(..., high_risk=[...])`
+   routes every call to a high-risk tool through `approval`, for probes *and* real users, and the
+   default `deny_all` refuses them all. In production pass your own approval function (for example
+   one that asks a person), or `approval=approve_all` from `hieevas.governance` to record without
+   blocking.
+2. **Stress conditions are for probes only.** Tool faults (`C2`) and injected text (`C3`) are
+   applied only to requests tagged with that condition. Never let end users set tags: the Cloud
+   Run example rejects tags unless `HIEEVAS_ACCEPT_TAGS=1`, and probes should come from a
+   trusted caller.
+3. **Traces contain user data.** Spans hold prompts, retrieved passages, tool arguments and
+   answers, which may include personal or confidential information. Treat trace files and Cloud
+   Trace like application logs: restrict access, set retention, sample (`sample_rate=`) and
+   follow your privacy obligations. The dashboard server has no login of its own; locally it
+   listens on 127.0.0.1 only, and on Cloud Run it must be deployed with
+   `--no-allow-unauthenticated` or behind IAP.
+4. **Existing OpenTelemetry setups are joined, not replaced.** If the application already
+   configured a tracer provider, `hieevas.init()` adds its exporter to that provider and warns;
+   the application's service name and sampling stay in force.
+
+Metric values are measurements from recorded behaviour, not certifications: keyword-based
+refusal detection and phrase-matching of answers are heuristics (see [METRICS.md](https://github.com/heurius/hieevas/blob/main/METRICS.md)).
+See [SECURITY.md](https://github.com/heurius/hieevas/blob/main/SECURITY.md) to report a vulnerability.
+
 ## 1. Any pipeline (framework-agnostic)
 
 ```python
