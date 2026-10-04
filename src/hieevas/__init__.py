@@ -27,7 +27,7 @@ from .scoring import cohen_kappa, detect_refusal, score_answer, token_f1
 from .stress import stress_tools
 from .trace import RunRecord, Step, load_jsonl, save_csv, save_jsonl
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __all__ = ["Recorder", "RunContext", "current_run", "BudgetExceeded", "evaluate", "Report", "metrics",
            "governed_tool", "inject", "injection_followed", "CANARY", "RunRecord", "Step", "save_jsonl",
            "load_jsonl", "save_csv", "score_answer", "token_f1", "detect_refusal", "cohen_kappa",

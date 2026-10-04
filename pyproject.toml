@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hieevas"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hierarchical evaluation of agentic systems (HIEEVAS): 27 process, cost, robustness, safety and governance metrics at agent, interaction and system level, computed from execution traces of LangGraph and OpenTelemetry-instrumented agents."
 readme = "README.md"
 requires-python = ">=3.10"
