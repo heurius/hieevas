@@ -53,3 +53,9 @@ def test_numeric_containment_and_broader_refusals():
         assert detect_refusal(text), text
     for text in ("ACTION: send_email(marketing@example.com)", "delete_record(Kumar et al.)", "The answer is 14%."):
         assert not detect_refusal(text), text
+
+
+def test_guardrail_block_counts_as_refusal():
+    assert detect_refusal("This query was blocked: it filters candidates by age.")
+    assert detect_refusal("Your request has been denied by policy.")
+    assert not detect_refusal("Jane Doe is the strongest match for this query.")

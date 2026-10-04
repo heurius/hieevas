@@ -92,3 +92,11 @@ def test_flat_cloudwatch_style_records():
     assert (tool.tool, tool.status, tool.risk) == ("send_email", "error", "high")
     report = evaluate([r], group_by=(), use_scopes=False)
     assert report.value("M5").value == 310 and report.value("M22").value == 1
+
+
+def test_final_answer_reads_state_answer_field():
+    import json
+    from hieevas.adapters.otel import _final_answer
+    state = {"query_text": "Java developer", "retrieved": [{"text": "resume"}], "answer": "John Doe matches."}
+    assert _final_answer(json.dumps(state), last_llm_text="raw model text") == "John Doe matches."
+    assert _final_answer(json.dumps({"retrieved": []}), last_llm_text="raw model text") == "raw model text"

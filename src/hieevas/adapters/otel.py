@@ -284,12 +284,16 @@ def _tool_output_text(value: Any) -> str:
         return m.group(1) if m else text
 
 
+ANSWER_KEYS = ("answer", "final_answer", "response", "output")
+
+
 def _final_answer(output: Any, last_llm_text: str | None) -> Any:
     """The agent's answer, not the whole graph state.
 
     LangGraph root spans carry the final state (every message, including tool results), so
     scoring it would credit answers found only in retrieved text. Use the last message of
-    that state, or else the text of the last LLM call; a plain-text output is kept as is.
+    that state, else a text field named in ``ANSWER_KEYS`` (e.g. ``state["answer"]``), else the
+    text of the last LLM call; a plain-text output is kept as is.
     """
     if not isinstance(output, str):
         return output if output is not None else last_llm_text
@@ -310,6 +314,11 @@ def _final_answer(output: Any, last_llm_text: str | None) -> Any:
                 content = " ".join(p.get("text", "") if isinstance(p, dict) else str(p) for p in content)
             if content:
                 return content
+    if isinstance(state, dict):  # graphs that keep the answer in a state field instead of messages
+        for key in ANSWER_KEYS:
+            value = state.get(key)
+            if isinstance(value, str) and value.strip():
+                return value
     return last_llm_text if last_llm_text is not None else output
 
 
