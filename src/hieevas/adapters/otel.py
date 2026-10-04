@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable
@@ -325,11 +326,16 @@ def _final_answer(output: Any, last_llm_text: str | None) -> Any:
 # ---------------------------------------------------------------- conversion
 def spans_to_runs(spans: Iterable[Span | dict], app: str = "otel", architecture: str = "default",
                   condition: str = "C1", scorer: str | Callable = "auto",
-                  answer_attr: str | None = None, tool_risk: dict[str, str] | None = None) -> list[RunRecord]:
+                  answer_attr: str | None = None, tool_risk: dict[str, str] | None = None,
+                  pending_seconds: float | None = 600) -> list[RunRecord]:
     """Group spans by trace and convert each trace into a RunRecord.
 
     ``tool_risk`` marks tools as high-risk by name (e.g. ``{"send_email": "high"}``) when the
     spans themselves carry no ``hieevas.risk`` attribute.
+
+    A request that is still running has exported its finished child spans but not its root
+    span. Such a trace (no span without a parent, last span ended under ``pending_seconds``
+    ago) is skipped until it completes; ``None`` keeps every trace.
     """
     tool_risk = tool_risk or {}
     norm = [s if isinstance(s, Span) else normalise(s) for s in spans]
@@ -338,7 +344,11 @@ def spans_to_runs(spans: Iterable[Span | dict], app: str = "otel", architecture:
         traces.setdefault(s.trace_id, []).append(s)
 
     runs = []
+    now = time.time()
     for trace_id, members in traces.items():
+        if (pending_seconds is not None and all(s.parent_id for s in members)
+                and now - max(s.end for s in members) < pending_seconds):
+            continue  # still running: its root span has not been exported yet
         pending: dict[str, list[str | None]] = {}  # tool name -> reasons written before the call
         last_llm_text = None  # final model output = the answer when the root span holds the whole state
         members.sort(key=lambda s: s.start)
