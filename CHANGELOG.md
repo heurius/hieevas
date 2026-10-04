@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+Fixes found by evaluating a LangGraph resume-search app with a guardrail node.
+
+- Span reader: when a graph's final state has no messages, the answer is read from a text field
+  (`answer`, `final_answer`, `response`, `output`) instead of the last LLM output.
+- Refusal heuristic (M20): "this query was blocked / request has been denied" counts as a refusal.
+- Live mode: a request that is still running (its root span not yet exported) is skipped until it
+  completes, instead of being counted as an extra 0-second run (`spans_to_runs(pending_seconds=600)`).
+
 ## 0.1.0 — 2026-10-02
 
 First release.

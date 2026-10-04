@@ -92,3 +92,23 @@ def test_flat_cloudwatch_style_records():
     assert (tool.tool, tool.status, tool.risk) == ("send_email", "error", "high")
     report = evaluate([r], group_by=(), use_scopes=False)
     assert report.value("M5").value == 310 and report.value("M22").value == 1
+
+
+def test_final_answer_reads_state_answer_field():
+    import json
+    from hieevas.adapters.otel import _final_answer
+    state = {"query_text": "Java developer", "retrieved": [{"text": "resume"}], "answer": "John Doe matches."}
+    assert _final_answer(json.dumps(state), last_llm_text="raw model text") == "John Doe matches."
+    assert _final_answer(json.dumps({"retrieved": []}), last_llm_text="raw model text") == "raw model text"
+
+
+def test_running_request_is_skipped_until_its_root_span_arrives():
+    import time
+    from hieevas.adapters.otel import Span, spans_to_runs
+    now = time.time()
+    child = Span(trace_id="t1", span_id="c1", parent_id="root1", name="retrieval_agent",
+                 start=now - 2, end=now - 1, attrs={})
+    assert spans_to_runs([child]) == []                        # root still running
+    assert len(spans_to_runs([child], pending_seconds=None)) == 1
+    root = Span(trace_id="t1", span_id="root1", parent_id=None, name="LangGraph", start=now - 3, end=now, attrs={})
+    assert len(spans_to_runs([child, root])) == 1               # complete
